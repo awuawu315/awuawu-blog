@@ -1,23 +1,26 @@
-# 用于构建和部署 Hugo 网站到 GitHub Pages 的示例工作流
+# 用于构建和部署 Hugo 网站到 GitHub Pages 的示例工作流程（新版）
 name: 发布Hugo网站到Pages
 
 on:
-  # 推送到 main 分支时触发
+  # 在 main 分支 push 时运行
   push:
     branches:
       - main
-  # 允许在 Actions 页手动运行
+  # 允许在 Actions 页面手动触发
   workflow_dispatch:
 
+# 允许部署到 GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# 避免并发部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
+# 默认使用 bash
 defaults:
   run:
     shell: bash
@@ -26,25 +29,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      HUGO_VERSION: 0.152.2   # 需要可以改成你本地用的版本
+      # 用你的 Hugo 版本
+      HUGO_VERSION: 0.152.2
+
     steps:
       - name: 安装 Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
+      # 如果主题不需要 Sass，可以删掉这一步
       - name: 安装 Dart Sass
         run: sudo snap install dart-sass
 
       - name: 检出代码
         uses: actions/checkout@v4
         with:
-          submodules: recursive   # 需要拉取主题子模块
+          submodules: recursive   # 拉取主题子模块
           fetch-depth: 0
 
-      - name: 设置 Pages
+      - name: 配置 GitHub Pages
         id: pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
 
       - name: 安装 Node.js 依赖（如果需要）
         run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
@@ -60,7 +66,7 @@ jobs:
             --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: 上传构建产物
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./public
 
@@ -73,4 +79,4 @@ jobs:
     steps:
       - name: 部署到 GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v
