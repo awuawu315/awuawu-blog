@@ -1,3 +1,24 @@
-baseURL = 'https://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = "https://awuawu315.github.io/awuawu-blog/"
+languageCode = "zh-CN"
+title = "awuawu"
+theme = "PaperMod"
+
+[params]
+  defaultTheme = "auto"
+  dateFormat = "2006-01-02"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowCodeCopyButtons = true
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "博客"
+    url = "/posts/"
+    weight = 1
+
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 2
