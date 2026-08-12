@@ -38,10 +38,6 @@ jobs:
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
-      # 如果主题不需要 Sass，可以删掉这一步
-      - name: 安装 Dart Sass
-        run: sudo snap install dart-sass
-
       - name: 检出代码
         uses: actions/checkout@v4
         with:
@@ -52,9 +48,6 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
-      - name: 安装 Node.js 依赖（如果需要）
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-
       - name: 使用 Hugo 构建
         env:
           HUGO_ENVIRONMENT: production
@@ -64,6 +57,16 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: 验证关键页面产物
+        run: |
+          test -f public/index.html
+          test -f public/posts/index.html
+          test -f public/about/index.html
+          test -f public/search/index.html
+          test -f public/categories/index.html
+          test -f public/tags/index.html
+          test -f public/index.json
 
       - name: 上传构建产物
         uses: actions/upload-pages-artifact@v4

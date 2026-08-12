@@ -1,5 +1,6 @@
 baseURL = "https://awuawu315.github.io/awuawu-blog/"
 languageCode = "zh-CN"
+defaultContentLanguage = "zh"
 title = "awuawu"
 theme = "PaperMod"
 
@@ -12,6 +13,7 @@ theme = "PaperMod"
 
 [params]
   defaultTheme = "auto"
+  description = "记录值得留存的想法、阅读与技术探索。"
   dateFormat = "2006-01-02"
   ShowReadingTime = true
   ShowShareButtons = false

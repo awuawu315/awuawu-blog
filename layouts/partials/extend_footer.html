@@ -27,11 +27,13 @@
     button.setAttribute('aria-expanded', 'false');
     button.innerHTML = '<span aria-hidden="true">☰</span>';
     switches.appendChild(button);
+    document.documentElement.classList.add('awu-js-nav');
 
-    const closeMenu = () => {
+    const closeMenu = ({ returnFocus = false } = {}) => {
       menu.classList.remove('awu-menu-open');
       button.setAttribute('aria-expanded', 'false');
       button.setAttribute('aria-label', '打开导航菜单');
+      if (returnFocus) button.focus();
     };
 
     button.addEventListener('click', () => {
@@ -42,7 +44,9 @@
 
     menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMenu();
+      if (event.key === 'Escape' && menu.classList.contains('awu-menu-open')) {
+        closeMenu({ returnFocus: true });
+      }
     });
   })();
 </script>
