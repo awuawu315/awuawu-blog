@@ -1,0 +1,43 @@
+{{- define "main" }}
+<div class="awu-home awu-home-cosmic">
+  <section class="awu-cover" aria-labelledby="awu-cover-title">
+    <div class="awu-cover-content">
+      <h1 id="awu-cover-title">awuawu</h1>
+      <p>世界是旷野，不是赛道。</p>
+    </div>
+    <a class="awu-scroll-cue" href="#content" aria-label="向下浏览文章内容">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="m6 9 6 6 6-6" />
+      </svg>
+    </a>
+  </section>
+
+  <div class="awu-home-content" id="content">
+    <section class="awu-home-lower" aria-label="博客概览">
+      <aside class="awu-profile" aria-labelledby="awu-profile-title">
+        <h2 id="awu-profile-title">博主简介</h2>
+        <p>在这里记录值得留存的想法、阅读与技术探索。</p>
+        {{- with site.GetPage "/about" }}<a href="{{ .RelPermalink }}">了解更多 <span aria-hidden="true">→</span></a>{{ end -}}
+      </aside>
+
+      <section class="awu-latest-section" aria-labelledby="awu-latest-title">
+        <div class="awu-section-heading">
+          <div>
+            <h2 id="awu-latest-title">最新文章</h2>
+            <p>最近发布和更新的内容。</p>
+          </div>
+        </div>
+        <div class="awu-post-list">
+          {{- $posts := where site.RegularPages "Section" "posts" -}}
+          {{- range first 6 $posts }}
+            {{- partial "post-entry.html" . }}
+          {{- else }}
+            <p class="awu-empty-state">文章将在整理后显示。</p>
+          {{- end }}
+        </div>
+        {{- with site.GetPage "/posts" }}<a class="awu-all-posts" href="{{ .RelPermalink }}">查看全部文章 <span aria-hidden="true">→</span></a>{{ end -}}
+      </section>
+    </section>
+  </div>
+</div>
+{{- end }}

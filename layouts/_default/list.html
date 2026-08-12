@@ -1,0 +1,34 @@
+{{- define "main" }}
+<div class="awu-list-page">
+  <header class="awu-page-intro">
+    {{- if and (eq .Kind "section") (eq .Section "posts") }}
+      <h1>文章</h1>
+      <p>记录本站发布的全部文章。</p>
+    {{- else if .Data.Term }}
+      <h1>{{ .Title }}</h1>
+      <p>{{ len .RegularPages }} 篇文章</p>
+    {{- else }}
+      <h1>{{ .Title }}</h1>
+      {{- with .Description }}<p>{{ . }}</p>{{ end -}}
+    {{- end }}
+  </header>
+
+  {{- with .Content }}<div class="awu-list-content">{{ . }}</div>{{ end -}}
+
+  <div class="awu-post-list">
+    {{- $paginator := .Paginate .RegularPages -}}
+    {{- range $paginator.Pages }}
+      {{- partial "post-entry.html" . }}
+    {{- else }}
+      <p class="awu-empty-state">暂时没有可显示的文章。</p>
+    {{- end }}
+  </div>
+
+  {{- if gt $paginator.TotalPages 1 }}
+    <nav class="awu-pagination" aria-label="分页">
+      {{- if $paginator.HasPrev }}<a href="{{ $paginator.Prev.RelPermalink }}">← 上一页</a>{{ end -}}
+      {{- if $paginator.HasNext }}<a href="{{ $paginator.Next.RelPermalink }}">下一页 →</a>{{ end -}}
+    </nav>
+  {{- end }}
+</div>
+{{- end }}

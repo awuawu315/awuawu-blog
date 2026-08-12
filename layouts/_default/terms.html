@@ -1,0 +1,27 @@
+{{- define "main" }}
+<div class="awu-terms-page">
+  {{- $isCategories := eq .Data.Plural "categories" -}}
+  <header class="awu-page-intro">
+    <h1>{{ if $isCategories }}分类{{ else }}标签{{ end }}</h1>
+    <p>{{ if $isCategories }}按主题浏览文章。{{ else }}按标签浏览文章。{{ end }}</p>
+  </header>
+
+  {{- if gt (len .Data.Terms) 0 }}
+    <div class="awu-terms-grid {{ if $isCategories }}awu-category-grid{{ else }}awu-tag-grid{{ end }}">
+      {{- $type := .Type -}}
+      {{- range .Data.Terms.Alphabetical -}}
+        {{- $termName := .Name -}}
+        {{- $termCount := .Count -}}
+        {{- with site.GetPage (printf "/%s/%s" $type $termName) }}
+          <a class="{{ if $isCategories }}awu-category-card{{ else }}awu-tag-card{{ end }}" href="{{ .RelPermalink }}">
+            <span>{{ .LinkTitle }}</span>
+            <small>{{ $termCount }} 篇</small>
+          </a>
+        {{- end -}}
+      {{- end -}}
+    </div>
+  {{- else }}
+    <p class="awu-empty-state">{{ if $isCategories }}分类将在文章逐步整理后显示。{{ else }}标签将在文章逐步整理后显示。{{ end }}</p>
+  {{- end }}
+</div>
+{{- end }}

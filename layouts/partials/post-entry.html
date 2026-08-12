@@ -1,0 +1,31 @@
+<article class="awu-post-entry">
+  <div class="awu-post-taxonomy">
+    {{- with .GetTerms "categories" -}}
+      {{- range first 1 . -}}
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{- end -}}
+    {{- end -}}
+  </div>
+
+  <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+
+  {{- if ne (.Param "hideSummary") true }}
+    <p class="awu-post-summary">{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}…{{ end }}</p>
+  {{- end }}
+
+  <div class="awu-post-meta">
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "2006-01-02" }}</time>
+    <span aria-hidden="true">·</span>
+    <span>{{ .ReadingTime }} 分钟阅读</span>
+    {{- with .GetTerms "tags" }}
+      <span aria-hidden="true">·</span>
+      <span class="awu-post-tags">
+        {{- range . -}}
+          <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
+        {{- end -}}
+      </span>
+    {{- end }}
+  </div>
+
+  <a class="awu-post-read" href="{{ .RelPermalink }}">查看文章 <span aria-hidden="true">→</span></a>
+</article>

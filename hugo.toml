@@ -3,22 +3,59 @@ languageCode = "zh-CN"
 title = "awuawu"
 theme = "PaperMod"
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
 [params]
   defaultTheme = "auto"
   dateFormat = "2006-01-02"
   ShowReadingTime = true
-  ShowShareButtons = true
+  ShowShareButtons = false
   ShowCodeCopyButtons = true
 
 [menu]
   [[menu.main]]
-    identifier = "posts"
-    name = "博客"
-    url = "/posts/"
+    identifier = "home"
+    name = "首页"
+    url = "/"
     weight = 1
+
+  [[menu.main]]
+    identifier = "posts"
+    name = "文章"
+    url = "/posts/"
+    weight = 2
+
+  [[menu.main]]
+    identifier = "categories"
+    name = "分类"
+    url = "/categories/"
+    weight = 3
+
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 4
+
+  [[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 5
+
+  [[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    url = "/search/"
+    weight = 6
 
   [[menu.main]]
     identifier = "about"
     name = "关于"
     url = "/about/"
-    weight = 2
+    weight = 7
