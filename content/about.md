@@ -1,6 +1,9 @@
 ---
 title: "关于"
 url: "/about/"
+hideMeta: true
+disableShare: true
+layout: "about"
 ---
 
 ## About

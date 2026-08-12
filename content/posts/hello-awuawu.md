@@ -2,6 +2,7 @@
 date = '2025-12-07T14:07:48+08:00'
 draft = false
 title = 'Hello Awuawu'
+categories = ['测试']
 
 +++
 

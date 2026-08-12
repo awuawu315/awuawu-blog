@@ -1,0 +1,5 @@
+{{- $background := resources.Get "images/background.png" -}}
+{{- with $background }}
+  {{- $cosmic := .Resize "2560x webp q85" -}}
+  <style>:root { --awu-cosmic-image: url('{{ $cosmic.RelPermalink }}'); }</style>
+{{- end }}

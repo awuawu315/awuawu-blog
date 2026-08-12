@@ -9,4 +9,53 @@
     });
   })();
 </script>
+
 {{- end }}
+
+<script>
+  (() => {
+    const menu = document.getElementById('menu');
+    const switches = document.querySelector('.logo-switches');
+    if (!menu || !switches || document.getElementById('awu-menu-toggle')) return;
+
+    const button = document.createElement('button');
+    button.id = 'awu-menu-toggle';
+    button.type = 'button';
+    button.className = 'awu-menu-toggle';
+    button.setAttribute('aria-label', '打开导航菜单');
+    button.setAttribute('aria-controls', 'menu');
+    button.setAttribute('aria-expanded', 'false');
+    button.innerHTML = '<span aria-hidden="true">☰</span>';
+    switches.appendChild(button);
+
+    const closeMenu = () => {
+      menu.classList.remove('awu-menu-open');
+      button.setAttribute('aria-expanded', 'false');
+      button.setAttribute('aria-label', '打开导航菜单');
+    };
+
+    button.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('awu-menu-open');
+      button.setAttribute('aria-expanded', String(isOpen));
+      button.setAttribute('aria-label', isOpen ? '关闭导航菜单' : '打开导航菜单');
+    });
+
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMenu();
+    });
+  })();
+</script>
+
+<script>
+  (() => {
+    const cue = document.querySelector('.awu-scroll-cue');
+    const content = document.getElementById('content');
+    if (!cue || !content) return;
+
+    cue.addEventListener('click', (event) => {
+      event.preventDefault();
+      content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })();
+</script>
