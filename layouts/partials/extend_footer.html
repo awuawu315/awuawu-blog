@@ -1,0 +1,12 @@
+{{- if eq .Layout "search" }}
+<script>
+  (() => {
+    const input = document.getElementById('searchInput');
+    if (!input) return;
+
+    input.addEventListener('input', () => {
+      input.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true }));
+    });
+  })();
+</script>
+{{- end }}
