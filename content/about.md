@@ -6,18 +6,18 @@ disableShare: true
 layout: "about"
 ---
 
-## About
+## 关于我
 
 这是本站的关于页面，后续可在此补充经确认的个人介绍。
 
-## Interests
+## 关注方向
 
 关注的主题将在内容确定后更新。
 
-## Projects
+## 项目
 
 暂无公开项目条目。
 
-## Contact
+## 联系方式
 
 联系信息将在可公开时提供。

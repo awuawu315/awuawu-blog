@@ -27,11 +27,13 @@
     button.setAttribute('aria-expanded', 'false');
     button.innerHTML = '<span aria-hidden="true">☰</span>';
     switches.appendChild(button);
+    document.documentElement.classList.add('awu-js-nav');
 
-    const closeMenu = () => {
+    const closeMenu = ({ returnFocus = false } = {}) => {
       menu.classList.remove('awu-menu-open');
       button.setAttribute('aria-expanded', 'false');
       button.setAttribute('aria-label', '打开导航菜单');
+      if (returnFocus) button.focus();
     };
 
     button.addEventListener('click', () => {
@@ -42,8 +44,51 @@
 
     menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') closeMenu();
+      if (event.key === 'Escape' && menu.classList.contains('awu-menu-open')) {
+        closeMenu({ returnFocus: true });
+      }
     });
+  })();
+</script>
+
+<script>
+  (() => {
+    const toc = document.getElementById('TableOfContents');
+    if (!toc || !('IntersectionObserver' in window)) return;
+
+    const links = [...toc.querySelectorAll('.awu-toc-nav a[href^="#"]')];
+    const entries = links.map((link) => {
+      const id = decodeURIComponent(link.hash.slice(1));
+      return { link, heading: document.getElementById(id) };
+    }).filter(({ heading }) => heading);
+    if (!entries.length) return;
+
+    let activeId = '';
+    const setActive = (id) => {
+      if (!id || id === activeId) return;
+      activeId = id;
+      links.forEach((link) => {
+        const isActive = decodeURIComponent(link.hash.slice(1)) === id;
+        link.classList.toggle('is-active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    const observer = new IntersectionObserver((observed) => {
+      const current = observed
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+      if (current) setActive(current.target.id);
+    }, { rootMargin: '-18% 0px -72% 0px', threshold: 0 });
+
+    entries.forEach(({ link, heading }) => {
+      observer.observe(heading);
+      link.addEventListener('click', () => setActive(heading.id));
+    });
+
+    if (window.location.hash) setActive(decodeURIComponent(window.location.hash.slice(1)));
+    else setActive(entries[0].heading.id);
   })();
 </script>
 
