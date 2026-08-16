@@ -11,11 +11,17 @@ theme = "PaperMod"
   category = "categories"
   tag = "tags"
 
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
 [params]
   defaultTheme = "auto"
   description = "记录值得留存的想法、阅读与技术探索。"
   dateFormat = "2006-01-02"
-  ShowReadingTime = true
+  ShowReadingTime = false
   ShowShareButtons = false
   ShowCodeCopyButtons = true
 

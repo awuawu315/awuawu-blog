@@ -16,7 +16,8 @@
   {{- with .Content }}<div class="awu-list-content">{{ . }}</div>{{ end -}}
 
   <div class="awu-post-list">
-    {{- $paginator := .Paginate .RegularPages -}}
+    {{- $pages := where .RegularPages "Draft" false -}}
+    {{- $paginator := .Paginate $pages -}}
     {{- range $paginator.Pages }}
       {{- partial "post-entry.html" . }}
     {{- else }}

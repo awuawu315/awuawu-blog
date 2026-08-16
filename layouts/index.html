@@ -1,4 +1,5 @@
 {{- define "main" }}
+{{- $avatar := resources.Get "images/profile/avatar.jpg" -}}
 <div class="awu-home awu-home-cosmic">
   <section class="awu-cover" aria-labelledby="awu-cover-title">
     <div class="awu-cover-content">
@@ -14,9 +15,15 @@
 
   <div class="awu-home-content" id="content">
     <section class="awu-home-lower" aria-label="博客概览">
-      <aside class="awu-profile" aria-labelledby="awu-profile-title">
-        <h2 id="awu-profile-title">博主简介</h2>
-        <p>在这里记录值得留存的想法、阅读与技术探索。</p>
+      <aside class="awu-profile" aria-label="博主简介">
+        <div class="awu-profile-identity">
+          {{- with $avatar }}
+            {{- $avatarThumb := .Fill "120x120 webp q85" -}}
+            <img class="awu-profile-avatar" src="{{ $avatarThumb.RelPermalink }}" width="60" height="60" alt="啊呜啊呜的头像">
+          {{- end }}
+          <span class="awu-profile-name">啊呜啊呜</span>
+        </div>
+        <p class="awu-profile-bio">在代码、论文和好奇心之间来回折腾。记录学到的东西，也记录那些暂时没有答案的问题。</p>
         {{- with site.GetPage "/about" }}<a href="{{ .RelPermalink }}">了解更多 <span aria-hidden="true">→</span></a>{{ end -}}
       </aside>
 
@@ -29,7 +36,8 @@
         </div>
         <div class="awu-post-list">
           {{- $posts := where site.RegularPages "Section" "posts" -}}
-          {{- range first 6 $posts }}
+          {{- $publishedPosts := where $posts "Draft" false -}}
+          {{- range first 2 ($publishedPosts.ByDate.Reverse) }}
             {{- partial "post-entry.html" . }}
           {{- else }}
             <p class="awu-empty-state">文章将在整理后显示。</p>

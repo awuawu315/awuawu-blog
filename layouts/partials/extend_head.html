@@ -1,5 +1,10 @@
-{{- $background := resources.Get "images/background.png" -}}
-{{- with $background }}
+{{- $darkBackground := resources.Get "images/background.png" -}}
+{{- $lightBackground := resources.Get "images/backgrounds/light-theme-background.jpg" -}}
+{{- with $darkBackground }}
   {{- $cosmic := .Resize "2560x webp q85" -}}
   <style>:root { --awu-cosmic-image: url('{{ $cosmic.RelPermalink }}'); }</style>
+{{- end }}
+{{- with $lightBackground }}
+  {{- $lightCosmic := .Resize "2560x webp q85" -}}
+  <style>:root { --awu-light-image: url('{{ $lightCosmic.RelPermalink }}'); }</style>
 {{- end }}

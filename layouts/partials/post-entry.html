@@ -10,22 +10,27 @@
   <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
 
   {{- if ne (.Param "hideSummary") true }}
-    <p class="awu-post-summary">{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}…{{ end }}</p>
+    <p class="awu-post-summary">
+      {{- with .Params.description -}}
+        {{ . | plainify | htmlUnescape | truncate 220 }}
+      {{- else -}}
+        {{ .Summary | plainify | htmlUnescape | truncate 220 }}{{ if .Truncated }}…{{ end }}
+      {{- end -}}
+    </p>
   {{- end }}
 
   <div class="awu-post-meta">
     <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format "2006-01-02" }}</time>
-    <span aria-hidden="true">·</span>
-    <span>{{ .ReadingTime }} 分钟阅读</span>
-    {{- with .GetTerms "tags" }}
-      <span aria-hidden="true">·</span>
-      <span class="awu-post-tags">
-        {{- range . -}}
-          <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
-        {{- end -}}
-      </span>
-    {{- end }}
   </div>
 
+  {{- with .GetTerms "tags" }}
+    <div class="awu-post-tags">
+      {{- range . -}}
+        <a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>
+      {{- end -}}
+    </div>
+  {{- end }}
+
   <a class="awu-post-read" href="{{ .RelPermalink }}">查看文章 <span aria-hidden="true">→</span></a>
+  <a class="awu-post-entry-link" href="{{ .RelPermalink }}" aria-label="阅读：{{ .Title }}"></a>
 </article>
